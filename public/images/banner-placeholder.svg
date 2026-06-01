@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" role="img" aria-label="Banner image placeholder">
+  <rect width="1200" height="600" fill="#20211d"/>
+  <circle cx="250" cy="170" r="140" fill="#1f8a70"/>
+  <circle cx="960" cy="430" r="190" fill="#f15a24"/>
+  <path d="M160 420h520" stroke="#fffdf8" stroke-width="42" stroke-linecap="round"/>
+  <path d="M160 500h330" stroke="#ded6c7" stroke-width="26" stroke-linecap="round"/>
+</svg>
