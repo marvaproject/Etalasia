@@ -16,13 +16,12 @@ use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
+use Guava\FilamentIconPicker\Forms\IconPicker;
 
 class CategoryResource extends Resource
 {
@@ -38,16 +37,33 @@ class CategoryResource extends Resource
             Section::make('Kategori')
                 ->schema([
                     Grid::make(2)->schema([
+
                         TextInput::make('name')
                             ->label('Nama')
                             ->required()
-                            ->maxLength(255)
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state ?? ''))),
-                        TextInput::make('slug')
-                            ->required()
-                            ->maxLength(255)
-                            ->unique(ignoreRecord: true),
+                            ->maxLength(255),
+
+                        Toggle::make('is_active')
+                            ->label('Aktif')
+                            ->default(true)
+                            ->required(),
+
+                    ]),
+
+                    // ── Icon Picker ───────────────────────────────────
+                    IconPicker::make('icon')
+                        ->label('Ikon Kategori')
+                        ->sets(['heroicons-outline', 'heroicons-solid'])
+                        ->columns([
+                            'default' => 4,
+                            'sm'      => 5,
+                            'md'      => 6,
+                            'lg'      => 8,
+                        ])
+                        ->helperText('Pilih ikon yang merepresentasikan kategori ini. Opsional — jika tidak dipilih, ikon ditentukan otomatis dari nama.'),
+
+                    // ── Gambar ───────────────────────────────────────
+                    Grid::make(2)->schema([
                         FileUpload::make('image_path')
                             ->label('Upload gambar/ikon')
                             ->image()
@@ -57,16 +73,8 @@ class CategoryResource extends Resource
                             ->label('URL gambar/ikon')
                             ->url()
                             ->maxLength(255),
-                        TextInput::make('sort_order')
-                            ->label('Urutan')
-                            ->numeric()
-                            ->default(0)
-                            ->required(),
-                        Toggle::make('is_active')
-                            ->label('Aktif')
-                            ->default(true)
-                            ->required(),
                     ]),
+
                 ])
                 ->columnSpanFull(),
         ]);
@@ -78,9 +86,9 @@ class CategoryResource extends Resource
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')->label('Nama')->searchable()->sortable(),
-                TextColumn::make('slug')->searchable()->toggleable(),
+                TextColumn::make('icon')->label('Ikon')->toggleable(),
                 TextColumn::make('products_count')->counts('products')->label('Produk')->sortable(),
-                TextColumn::make('sort_order')->label('Urutan')->sortable(),
+                TextColumn::make('sort_order')->label('Urutan')->sortable()->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('is_active')->label('Aktif')->boolean(),
                 TextColumn::make('updated_at')->label('Update')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
@@ -98,9 +106,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListCategories::route('/'),
+            'index'  => ListCategories::route('/'),
             'create' => CreateCategory::route('/create'),
-            'edit' => EditCategory::route('/{record}/edit'),
+            'edit'   => EditCategory::route('/{record}/edit'),
         ];
     }
 }

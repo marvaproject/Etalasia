@@ -5,7 +5,502 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-@theme {
-    --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* ─── Design Tokens — Orange × White × Black ──────────────────────── */
+:root {
+    /* Colors */
+    --color-bg:           #F8F8F8;
+    --color-surface:      #FFFFFF;
+    --color-primary:      #0A0A0A;
+    --color-secondary:    #737373;
+    --color-border:       #E4E4E7;
+    --color-accent:       #FF6200;
+    --color-accent-dark:  #E55500;
+    --color-accent-tint:  #FFF3EC;
+    --color-shopee:       #EE4D2D;
+    --color-shopee-dark:  #D43B1F;
+    --color-tiktok:       #0A0A0A;
+
+    /* Shape */
+    --radius-card:   12px;
+    --radius-btn:    10px;
+    --radius-search: 12px;
+    --radius-pill:   999px;
+
+    /* Elevation — Soft Shadow System (5 levels) */
+    /* Two-layer shadows: ambient (diffuse) + key light (sharp) */
+    --shadow-0:      none;
+    --shadow-1:      0 1px 3px rgba(0,0,0,0.07),  0 1px 2px rgba(0,0,0,0.05);
+    --shadow-2:      0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-3:      0 8px 24px rgba(0,0,0,0.09), 0 3px 8px rgba(0,0,0,0.06);
+    --shadow-4:      0 1px 0 rgba(0,0,0,0.06),   0 2px 8px rgba(0,0,0,0.05);
+    --shadow-focus:  0 0 0 3px rgba(255, 98, 0, 0.15);
+    /* Legacy aliases — kept for any inline references */
+    --shadow-card:   var(--shadow-1);
+    --shadow-hover:  var(--shadow-2);
+
+    /* iOS Easing */
+    --ease-ios:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-press:      cubic-bezier(0.19, 1.00, 0.22, 1.00);
 }
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────── */
+body {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Card Entrance — iOS slide-up stagger ─────────────────────────── */
+@keyframes cardSlideUp {
+    from { opacity: 0; transform: translateY(18px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+.product-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: cardSlideUp 0.35s var(--ease-ios) both;
+    transition: box-shadow 0.25s var(--ease-ios), transform 0.25s var(--ease-ios);
+    will-change: transform;
+    -webkit-tap-highlight-color: transparent;
+}
+.product-card:hover {
+    box-shadow: var(--shadow-2);
+    transform: translateY(-4px);
+}
+/* iOS press — scale down instantly, spring back */
+.product-card:active {
+    transform: scale(0.96);
+    transition: transform 0.08s var(--ease-press);
+    box-shadow: var(--shadow-1);
+}
+
+/* Staggered entrance delays */
+.product-card:nth-child(1)  { animation-delay:   0ms; }
+.product-card:nth-child(2)  { animation-delay:  55ms; }
+.product-card:nth-child(3)  { animation-delay:  90ms; }
+.product-card:nth-child(4)  { animation-delay: 115ms; }
+.product-card:nth-child(5)  { animation-delay: 135ms; }
+.product-card:nth-child(6)  { animation-delay: 155ms; }
+.product-card:nth-child(7)  { animation-delay: 170ms; }
+.product-card:nth-child(8)  { animation-delay: 185ms; }
+.product-card:nth-child(n+9) { animation-delay: 200ms; }
+
+/* ─── Affiliate Buttons ────────────────────────────────────────────── */
+.btn-shopee {
+    background: var(--color-shopee);
+    color: #fff;
+    border-radius: var(--radius-btn);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    transition: background 0.15s var(--ease-ios), transform 0.08s var(--ease-press);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.btn-shopee:hover  { background: var(--color-shopee-dark); }
+.btn-shopee:active { transform: scale(0.90); }
+
+.btn-tiktok {
+    background: var(--color-tiktok);
+    color: #fff;
+    border-radius: var(--radius-btn);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    transition: background 0.15s var(--ease-ios), transform 0.08s var(--ease-press);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.btn-tiktok:hover  { background: #2a2a2a; }
+.btn-tiktok:active { transform: scale(0.90); }
+
+/* ─── Search Bar ───────────────────────────────────────────────────── */
+.search-bar {
+    height: 44px;
+    border-radius: var(--radius-search);
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border);
+    box-shadow: var(--shadow-1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 14px;
+    transition: border-color 0.2s var(--ease-ios), box-shadow 0.2s var(--ease-ios);
+}
+.search-bar:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-focus);
+}
+
+/* ─── Category Pills (legacy, kept for fallback) ───────────────────── */
+.cat-pill {
+    border-radius: var(--radius-pill);
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition:
+        background  0.15s var(--ease-ios),
+        color       0.15s var(--ease-ios),
+        transform   0.10s var(--ease-spring);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.cat-pill:active { transform: scale(0.90); }
+.cat-pill-active   { background: var(--color-accent); color: #fff; }
+.cat-pill-inactive { background: #EEEEEE; color: var(--color-secondary); }
+.cat-pill-inactive:hover { background: #E2E2E2; color: var(--color-primary); }
+
+/* ─── Category Icon Chips ───────────────────────────────────────────── */
+.cat-icon-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: visible;         /* prevent label clipping in Y */
+    scrollbar-width: none;
+    padding: 10px 16px 6px;     /* bottom intentionally small — wrapper handles space */
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+}
+.cat-icon-row::-webkit-scrollbar { display: none; }
+
+.cat-icon-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.22s var(--ease-spring);
+    min-width: 58px;
+    padding-bottom: 10px;        /* label breathing room inside chip */
+}
+.cat-icon-chip:active {
+    transform: scale(0.86);
+    transition: transform 0.08s var(--ease-press);
+}
+
+.cat-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: #F2F2F2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B6B6B;
+    transition:
+        background 0.2s var(--ease-ios),
+        box-shadow 0.2s var(--ease-ios),
+        color      0.2s var(--ease-ios);
+    flex-shrink: 0;
+}
+.cat-icon-chip.active .cat-icon-box {
+    background: var(--color-accent);
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(255, 98, 0, 0.32);
+}
+.cat-icon-chip:not(.active):hover .cat-icon-box {
+    background: #E8E8E8;
+    color: var(--color-primary);
+}
+
+.cat-icon-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #737373;
+    text-align: center;
+    max-width: 64px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+    letter-spacing: 0.005em;
+    transition: color 0.2s var(--ease-ios);
+}
+.cat-icon-chip.active .cat-icon-label {
+    color: var(--color-accent);
+    font-weight: 700;
+}
+
+
+/* ─── Filter toggle button ─────────────────────────────────────────── */
+.filter-toggle-btn {
+    transition: transform 0.1s var(--ease-spring), background 0.15s var(--ease-ios);
+    -webkit-tap-highlight-color: transparent;
+}
+.filter-toggle-btn:active { transform: scale(0.92); }
+
+/* ─── Reduced motion ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    .product-card,
+    .btn-shopee,
+    .btn-tiktok,
+    .cat-pill,
+    .filter-toggle-btn {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ─── Shimmer Animation ────────────────────────────────────────────── */
+@keyframes shimmer {
+    from { background-position: -200% 0; }
+    to   { background-position:  200% 0; }
+}
+
+/* ─── Skeleton: Product Image ──────────────────────────────────────── */
+.img-skeleton {
+    background: linear-gradient(90deg, #EBEBEB 25%, #F5F5F5 50%, #EBEBEB 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+.img-skeleton.loaded {
+    background: none;
+    animation: none;
+}
+.img-real {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.img-real.loaded {
+    opacity: 1;
+}
+
+/* Banner images: normal flow (not absolute) — parent has no fixed height */
+/* Mobile-first: 5/2 (~150px on 375px) → sm+ 3/1 (~280px on 840px) */
+.img-banner {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    display: block;
+    width: 100%;
+    aspect-ratio: 5/2;
+    object-fit: cover;
+}
+.img-banner.loaded {
+    opacity: 1;
+}
+@media (min-width: 640px) {
+    .img-banner { aspect-ratio: 3/1; }
+}
+
+/* ─── NProgress Loading Bar ────────────────────────────────────────── */
+#nprogress {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+#nprogress.active {
+    opacity: 1;
+}
+#nprogress .bar {
+    background: #FF6200;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 0 8px rgba(255, 98, 0, 0.5);
+}
+#nprogress .peg {
+    display: block;
+    position: absolute;
+    right: 0;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 10px #FF6200, 0 0 5px #FF6200;
+    opacity: 1;
+}
+
+/* ─── Optimistic grid dim ──────────────────────────────────────────── */
+.grid-dimmed {
+    opacity: 0.45;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+
+/* ─── Custom Dropdown ──────────────────────────────────────────────── */
+.custom-select {
+    position: relative;
+    user-select: none;
+}
+.custom-select-trigger {
+    width: 100%;
+    background: #FFFFFF;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-btn);
+    padding: 8px 36px 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 38px;
+    box-shadow: var(--shadow-1);
+    transition: border-color 0.15s var(--ease-ios), box-shadow 0.15s var(--ease-ios);
+    -webkit-tap-highlight-color: transparent;
+}
+.custom-select-trigger:hover {
+    border-color: #C0C0C0;
+}
+.custom-select-trigger.open {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-focus);
+}
+.custom-select-trigger .chevron {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: transform 0.2s var(--ease-spring);
+    color: var(--color-secondary);
+}
+.custom-select-trigger.open .chevron {
+    transform: translateY(-50%) rotate(180deg);
+}
+.custom-select-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: #FFFFFF;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-3);
+    z-index: 100;
+    overflow: hidden;
+    display: none;
+    animation: dropdownIn 0.18s var(--ease-spring) both;
+}
+.custom-select-dropdown.open {
+    display: block;
+}
+@keyframes dropdownIn {
+    from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+.custom-select-option {
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: background 0.1s var(--ease-ios);
+    -webkit-tap-highlight-color: transparent;
+}
+.custom-select-option:hover {
+    background: #F8F8F8;
+}
+.custom-select-option.selected {
+    color: var(--color-accent);
+    font-weight: 700;
+    background: var(--color-accent-tint);
+}
+.custom-select-option:active {
+    background: #EEEEEE;
+}
+
+/* ─── Banner Slider ────────────────────────────────────────────────── */
+.banner-slider {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+.banner-track {
+    display: flex;
+    transition: transform 0.45s var(--ease-ios);
+    will-change: transform;
+}
+.banner-slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+}
+.banner-slide img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 5/2;
+    object-fit: cover;
+    background: #EEEEEE;
+}
+@media (min-width: 640px) {
+    .banner-slide img { aspect-ratio: 3/1; }
+}
+.banner-dots {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 0 4px;
+}
+.banner-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #D4D4D4;
+    transition: width 0.25s var(--ease-spring), background 0.2s ease;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.banner-dot.active {
+    width: 18px;
+    background: var(--color-accent);
+}
+
+/* ─── Product Code Badge ───────────────────────────────────────────── */
+.product-code-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 6px;
+    padding: 2px 7px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    background: #F3F3F3;
+    color: #737373;
+    border: 1px solid #E4E4E7;
+    font-variant-numeric: tabular-nums;
+}
+

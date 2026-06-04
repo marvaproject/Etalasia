@@ -1,6 +1,6 @@
 # Progress Implementasi Etalasia
 
-Tanggal update: 2026-05-24
+Tanggal update: 2026-06-02
 
 ## Status Umum
 MVP Etalasia tahap awal sudah diimplementasikan sesuai PRD: dashboard Filament, model katalog, halaman publik, filter, redirect tracking affiliate, migration, seed data, test, dan build frontend.
@@ -52,6 +52,11 @@ Admin demo:
 - Revisi card produk: label kategori hanya satu dan tampil overlay di kanan atas gambar.
 - Revisi tombol affiliate: tombol Shopee/TikTok tampil sebaris jika keduanya tersedia dan teks tombol dibuat singkat.
 - Ubah nama aplikasi/fallback display dari Laravel menjadi Etalasia.
+- Buat `resources/views/layouts/app.blade.php`: layout master reusable dengan header, footer, meta OG, sticky header, back-to-top button.
+- Refactor `resources/views/catalog/index.blade.php`: gunakan layout master, tambah badge marketplace pada kartu produk, badge Unggulan, indikator filter aktif, empty state dengan ikon, animasi klik affiliate, dan gambar banner dengan hover scale.
+- Buat `resources/views/errors/404.blade.php`: halaman 404 custom dengan branding Etalasia.
+- Buat `app/Filament/Widgets/StatsOverviewWidget.php`: stats dashboard total produk aktif, kategori, klik Shopee, TikTok, banner, dan total klik affiliate.
+- Update `app/Providers/Filament/AdminPanelProvider.php`: warna primary dashboard disesuaikan ke hijau Etalasia (#1f8a70) dan StatsOverviewWidget didaftarkan.
 
 ## Verifikasi Terakhir
 Command yang sudah berhasil:

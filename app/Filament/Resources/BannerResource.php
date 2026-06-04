@@ -57,7 +57,8 @@ class BannerResource extends Resource
                             ->label('Urutan')
                             ->numeric()
                             ->default(0)
-                            ->required(),
+                            ->hidden()
+                            ->dehydrated(false),
                         Toggle::make('is_active')
                             ->label('Aktif')
                             ->default(true)

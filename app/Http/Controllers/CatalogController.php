@@ -41,7 +41,17 @@ class CatalogController extends Controller
             ->whereHas('category', fn (Builder $query) => $query->active())
             ->when($selectedCategory, fn (Builder $query) => $query->whereBelongsTo($selectedCategory))
             ->when($request->filled('q'), function (Builder $query) use ($request) {
-                $query->where('name', 'like', '%'.$request->string('q')->toString().'%');
+                $q = $request->string('q')->toString();
+                // Cari berdasarkan nama ATAU nomor produk (contoh: "#42" atau "42")
+                $codeSearch = (int) ltrim($q, '#');
+                $query->where(function (Builder $sub) use ($q, $codeSearch) {
+                    $sub->where('name', 'like', '%'.$q.'%')
+                        ->orWhere(function (Builder $codeQuery) use ($codeSearch) {
+                            if ($codeSearch > 0) {
+                                $codeQuery->where('product_code', $codeSearch);
+                            }
+                        });
+                });
             })
             ->when($request->filled('category') && ! $selectedCategory, function (Builder $query) use ($request) {
                 $query->whereHas('category', fn (Builder $categoryQuery) => $categoryQuery->where('slug', $request->string('category')));

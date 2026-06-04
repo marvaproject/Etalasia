@@ -14,10 +14,21 @@ class Banner extends Model
     protected function casts(): array
     {
         return [
-            'is_active' => 'boolean',
+            'is_active'  => 'boolean',
             'sort_order' => 'integer',
-            'clicks' => 'integer',
+            'clicks'     => 'integer',
         ];
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (Banner $banner) {
+            if (is_null($banner->sort_order)) {
+                $banner->sort_order = (static::max('sort_order') ?? 0) + 1;
+            }
+        });
     }
 
     public function getImageSrcAttribute(): string
