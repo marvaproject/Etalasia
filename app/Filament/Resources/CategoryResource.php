@@ -34,49 +34,59 @@ class CategoryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Kategori')
+            Section::make('Informasi Kategori')
                 ->schema([
                     Grid::make(2)->schema([
 
                         TextInput::make('name')
-                            ->label('Nama')
+                            ->label('Nama Kategori')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->columnSpan(1),
 
                         Toggle::make('is_active')
                             ->label('Aktif')
                             ->default(true)
-                            ->required(),
+                            ->inline(false)
+                            ->columnSpan(1),
 
                     ]),
+                ])
+                ->columnSpanFull(),
 
-                    // ── Icon Picker ───────────────────────────────────
+            // ── Icon Picker — grid inline ─────────────────────────────
+            Section::make('Ikon Kategori')
+                ->description('Pilih ikon yang merepresentasikan kategori ini. Jika tidak dipilih, ikon ditentukan otomatis dari nama.')
+                ->schema([
                     IconPicker::make('icon')
-                        ->label('Ikon Kategori')
+                        ->label(false)
                         ->sets(['heroicons-outline', 'heroicons-solid'])
-                        ->columns([
-                            'default' => 4,
-                            'sm'      => 5,
-                            'md'      => 6,
-                            'lg'      => 8,
-                        ])
-                        ->helperText('Pilih ikon yang merepresentasikan kategori ini. Opsional — jika tidak dipilih, ikon ditentukan otomatis dari nama.'),
+                        ->dropdown(false)
+                        ->searchable(),
+                ])
+                ->columnSpanFull(),
 
-                    // ── Gambar ───────────────────────────────────────
+            // ── Gambar (opsional) ─────────────────────────────────────
+            Section::make('Gambar Kategori')
+                ->description('Opsional. Upload gambar atau masukkan URL gambar untuk tampilan kategori.')
+                ->schema([
                     Grid::make(2)->schema([
                         FileUpload::make('image_path')
-                            ->label('Upload gambar/ikon')
+                            ->label('Upload gambar')
                             ->image()
                             ->directory('categories')
                             ->visibility('public'),
                         TextInput::make('image_url')
-                            ->label('URL gambar/ikon')
+                            ->label('URL gambar')
                             ->url()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->placeholder('https://...'),
                     ]),
-
                 ])
+                ->collapsible()
+                ->collapsed()
                 ->columnSpanFull(),
+
         ]);
     }
 
