@@ -66,24 +66,7 @@ class CategoryResource extends Resource
                 ])
                 ->columnSpanFull(),
 
-            // ── Gambar (opsional) ─────────────────────────────────────
-            Section::make('Gambar Kategori')
-                ->description('Opsional. Upload gambar atau masukkan URL gambar untuk tampilan kategori.')
-                ->schema([
-                    Grid::make(2)->schema([
-                        FileUpload::make('image_path')
-                            ->label('Upload gambar')
-                            ->image()
-                            ->directory('categories')
-                            ->visibility('public'),
-                        TextInput::make('image_url')
-                            ->label('URL gambar')
-                            ->url()
-                            ->maxLength(255)
-                            ->placeholder('https://...'),
-                    ]),
-                ])
-                ->columnSpanFull(),
+
 
         ]);
     }
