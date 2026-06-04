@@ -56,11 +56,11 @@ class CategoryResource extends Resource
 
             // ── Icon Picker — grid inline ─────────────────────────────
             Section::make('Ikon Kategori')
-                ->description('Pilih ikon yang merepresentasikan kategori ini. Jika tidak dipilih, ikon ditentukan otomatis dari nama.')
+                ->description('Klik untuk memilih ikon kategori. Opsional — otomatis dari nama jika tidak dipilih.')
                 ->schema([
                     IconPicker::make('icon')
-                        ->label(false)
-                        ->sets(['heroicons-outline', 'heroicons-solid'])
+                        ->hiddenLabel()
+                        ->sets(['tabler'])
                         ->dropdown(false)
                         ->searchable(),
                 ])
@@ -83,8 +83,6 @@ class CategoryResource extends Resource
                             ->placeholder('https://...'),
                     ]),
                 ])
-                ->collapsible()
-                ->collapsed()
                 ->columnSpanFull(),
 
         ]);
