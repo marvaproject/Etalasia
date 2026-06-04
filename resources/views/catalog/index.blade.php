@@ -95,21 +95,21 @@
 
                 @foreach ($categories as $category)
                     @php
-                        $storedIcon = $category->icon; // e.g., 'heroicon-o-shopping-bag'
+                        $storedIcon = $category->icon; // e.g., 'tabler-shirt'
                         if (!$storedIcon) {
                             $n = strtolower($category->name);
                             $iconKey = match(true) {
-                                str_contains($n,'fashion')||str_contains($n,'baju')||str_contains($n,'pakaian')||str_contains($n,'kaos')||str_contains($n,'celana')||str_contains($n,'jaket')||str_contains($n,'dress')||str_contains($n,'sepatu')||str_contains($n,'tas')||str_contains($n,'clothing')||str_contains($n,'clothes')||str_contains($n,'shirt')||str_contains($n,'blouse')||str_contains($n,'skirt')||str_contains($n,'rok')||str_contains($n,'kemeja')||str_contains($n,'sweater')||str_contains($n,'hoodie')||str_contains($n,'apparel') => 'shopbag',
-                                str_contains($n,'elektronik')||str_contains($n,'gadget')||str_contains($n,' hp')||str_contains($n,'laptop')||str_contains($n,'komputer')||str_contains($n,'phone')||str_contains($n,'tech')||str_contains($n,'audio')||str_contains($n,'kamera') => 'phone',
-                                str_contains($n,'kecantikan')||str_contains($n,'beauty')||str_contains($n,'skincare')||str_contains($n,'kosmetik')||str_contains($n,'perawatan')||str_contains($n,'makeup')||str_contains($n,'parfum') => 'sparkles',
-                                str_contains($n,'rumah')||str_contains($n,'home')||str_contains($n,'furniture')||str_contains($n,'dapur')||str_contains($n,'interior')||str_contains($n,'dekorasi')||str_contains($n,'household')||str_contains($n,'perabot') => 'home',
-                                str_contains($n,'makanan')||str_contains($n,'kuliner')||str_contains($n,'minuman')||str_contains($n,'food')||str_contains($n,'snack')||str_contains($n,'kopi')||str_contains($n,'beverage')||str_contains($n,'jajanan') => 'fire',
-                                str_contains($n,'olahraga')||str_contains($n,'sport')||str_contains($n,'fitness')||str_contains($n,'gym')||str_contains($n,'outdoor')||str_contains($n,'hiking') => 'bolt',
-                                str_contains($n,'aksesoris')||str_contains($n,'perhiasan')||str_contains($n,'jewelry')||str_contains($n,'jam')||str_contains($n,'watch')||str_contains($n,'cincin')||str_contains($n,'gelang') => 'star',
-                                str_contains($n,'anak')||str_contains($n,'bayi')||str_contains($n,'kids')||str_contains($n,'mainan')||str_contains($n,'baby')||str_contains($n,'toys') => 'heart',
-                                str_contains($n,'buku')||str_contains($n,'alat tulis')||str_contains($n,'stationery')||str_contains($n,'pendidikan')||str_contains($n,'education')||str_contains($n,'kantor') => 'book',
-                                str_contains($n,'otomotif')||str_contains($n,'motor')||str_contains($n,'mobil')||str_contains($n,'automotive')||str_contains($n,'spare')||str_contains($n,'kendaraan') => 'truck',
-                                default => 'tag'
+                                str_contains($n,'fashion')||str_contains($n,'baju')||str_contains($n,'pakaian')||str_contains($n,'kaos')||str_contains($n,'celana')||str_contains($n,'jaket')||str_contains($n,'dress')||str_contains($n,'sepatu')||str_contains($n,'tas')||str_contains($n,'clothing')||str_contains($n,'clothes')||str_contains($n,'shirt')||str_contains($n,'blouse')||str_contains($n,'skirt')||str_contains($n,'rok')||str_contains($n,'kemeja')||str_contains($n,'sweater')||str_contains($n,'hoodie')||str_contains($n,'apparel') => 'tabler-shirt',
+                                str_contains($n,'elektronik')||str_contains($n,'gadget')||str_contains($n,' hp')||str_contains($n,'laptop')||str_contains($n,'komputer')||str_contains($n,'phone')||str_contains($n,'tech')||str_contains($n,'audio')||str_contains($n,'kamera') => 'tabler-device-mobile',
+                                str_contains($n,'kecantikan')||str_contains($n,'beauty')||str_contains($n,'skincare')||str_contains($n,'kosmetik')||str_contains($n,'perawatan')||str_contains($n,'makeup')||str_contains($n,'parfum') => 'tabler-sparkles',
+                                str_contains($n,'rumah')||str_contains($n,'home')||str_contains($n,'furniture')||str_contains($n,'dapur')||str_contains($n,'interior')||str_contains($n,'dekorasi')||str_contains($n,'household')||str_contains($n,'perabot') => 'tabler-home',
+                                str_contains($n,'makanan')||str_contains($n,'kuliner')||str_contains($n,'minuman')||str_contains($n,'food')||str_contains($n,'snack')||str_contains($n,'kopi')||str_contains($n,'beverage')||str_contains($n,'jajanan') => 'tabler-utensils',
+                                str_contains($n,'olahraga')||str_contains($n,'sport')||str_contains($n,'fitness')||str_contains($n,'gym')||str_contains($n,'outdoor')||str_contains($n,'hiking') => 'tabler-barbell',
+                                str_contains($n,'aksesoris')||str_contains($n,'perhiasan')||str_contains($n,'jewelry')||str_contains($n,'jam')||str_contains($n,'watch')||str_contains($n,'cincin')||str_contains($n,'gelang') => 'tabler-gem',
+                                str_contains($n,'anak')||str_contains($n,'bayi')||str_contains($n,'kids')||str_contains($n,'mainan')||str_contains($n,'baby')||str_contains($n,'toys') => 'tabler-pacifier',
+                                str_contains($n,'buku')||str_contains($n,'alat tulis')||str_contains($n,'stationery')||str_contains($n,'pendidikan')||str_contains($n,'education')||str_contains($n,'kantor') => 'tabler-book',
+                                str_contains($n,'otomotif')||str_contains($n,'motor')||str_contains($n,'mobil')||str_contains($n,'automotive')||str_contains($n,'spare')||str_contains($n,'kendaraan') => 'tabler-car',
+                                default => 'tabler-tag'
                             };
                         }
                     @endphp
@@ -120,53 +120,9 @@
                             @if($storedIcon)
                                 {{-- Gunakan ikon yang dipilih admin dari icon picker --}}
                                 <x-dynamic-component :component="$storedIcon" class="size-[22px]" />
-                            @elseif ($iconKey === 'shopbag')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
-                                </svg>
-                            @elseif ($iconKey === 'phone')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 8.25h3"/>
-                                </svg>
-                            @elseif ($iconKey === 'sparkles')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/>
-                                </svg>
-                            @elseif ($iconKey === 'home')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
-                                </svg>
-                            @elseif ($iconKey === 'fire')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"/>
-                                </svg>
-                            @elseif ($iconKey === 'bolt')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
-                                </svg>
-                            @elseif ($iconKey === 'star')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
-                                </svg>
-                            @elseif ($iconKey === 'heart')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-                                </svg>
-                            @elseif ($iconKey === 'book')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
-                                </svg>
-                            @elseif ($iconKey === 'truck')
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
-                                </svg>
                             @else
-                                {{-- Default: Tag icon --}}
-                                <svg xmlns="http://www.w3.org/2000/svg" class="size-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"/>
-                                </svg>
+                                {{-- Fallback ke ikon Tabler default berdasarkan nama kategori --}}
+                                <x-dynamic-component :component="$iconKey" class="size-[22px]" />
                             @endif
                         </div>
                         <span class="cat-icon-label">{{ $category->name }}</span>
