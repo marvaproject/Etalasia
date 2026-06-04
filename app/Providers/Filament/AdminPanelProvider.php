@@ -13,6 +13,7 @@ use Filament\Support\Colors\Color;
 use App\Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
+use Guava\IconPicker\IconPickerPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -43,6 +44,9 @@ class AdminPanelProvider extends PanelProvider
                 StatsOverviewWidget::class,
                 AccountWidget::class,
                 FilamentInfoWidget::class,
+            ])
+            ->plugins([
+                IconPickerPlugin::make(),
             ])
             ->middleware([
                 EncryptCookies::class,
