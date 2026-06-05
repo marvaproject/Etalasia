@@ -1,7 +1,7 @@
 <div align="center">
   <img src="/public/images/Etalasia%20Logo%20Orange.svg" alt="Logo Etalasia" width="120" />
 
-  <h2>Etalasia — Premium Shopee & TikTok Affiliate Catalog Platform</h2>
+  <h3>Etalasia — Premium Shopee & TikTok Affiliate Catalog Platform</h3>
 
   **Etalasia** adalah platform katalog afiliasi (*affiliate catalog platform*) modern yang dikembangkan untuk mengkurasi produk-produk pilihan terbaik dari **Shopee** dan **TikTok**. Platform ini menghadirkan *seamless user experience* bagi pengunjung untuk mencari, menyaring, menyimpan ke *wishlist*, dan membagikan produk favorit mereka, sebelum diarahkan langsung ke tautan belanja afiliasi (*affiliate link*).
 
