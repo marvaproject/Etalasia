@@ -3,14 +3,29 @@
 
   <h3>Etalasia — Premium Shopee & TikTok Affiliate Catalog Platform</h3>
 
+  <p align="center">
+    <img src="https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 11">
+    <img src="https://img.shields.io/badge/Filament%20PHP-v3-EBB308?style=for-the-badge&logo=laravel&logoColor=black" alt="Filament PHP v3">
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+    <img src="https://img.shields.io/badge/PHP-8.3%2B-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.3+">
+    <img src="https://img.shields.io/badge/Pest%20PHP-Tests%20Passed-01C1D6?style=for-the-badge&logo=pest&logoColor=white" alt="Pest Tests">
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License MIT"></a>
+  </p>
+
   <br/>
 
   **Etalasia** adalah platform katalog afiliasi (*affiliate catalog platform*) modern yang dikembangkan untuk mengkurasi produk-produk pilihan terbaik dari **Shopee** dan **TikTok**. Platform ini menghadirkan *seamless user experience* bagi pengunjung untuk mencari, menyaring, menyimpan ke *wishlist*, dan membagikan produk favorit mereka, sebelum diarahkan langsung ke tautan belanja afiliasi (*affiliate link*).
 
   Pada bagian *back-office*, admin dibekali dengan *dashboard* berbasis Filament PHP yang tangguh untuk mengelola inventaris produk, mengklasifikasikan kategori, mengatur *campaign banner*, memantau metrik performa (*click-through analytics*), hingga melakukan impor data secara massal (*bulk import*).
+
+  <br/>
+  
+  <a href="https://github.com/marvaproject/Etalasia">
+    <img src="[TODO: Path screenshot katalog utama, contoh: docs/screenshots/catalog.png]" alt="Etalasia Catalog Home Preview" width="800">
+  </a>
 </div>
 
-<hr style="height: 1px; border: 0; background: #e1e4e8; margin: 30px 0;" />
+<br/><br/>
 
 ## 🚀 Key Features (Fitur Utama)
 
@@ -33,18 +48,11 @@
 * **Optimized Redirect Policy**: Setelah admin melakukan *submit* (menyimpan perubahan atau membuat produk baru), alur pengisian form langsung diarahkan kembali (*redirect*) ke tabel inventaris utama untuk efisiensi alur kerja (kecuali saat menggunakan tombol "Create & Create Another").
 * **Advanced Table Filtering**: Filter khusus berdasarkan kategori dan platform *marketplace* aktif yang mengevaluasi keberadaan *affiliate link* Shopee dan TikTok secara dinamis.
 
-<hr style="height: 1px; border: 0; background: #e1e4e8; margin: 30px 0;" />
+<br/><br/>
 
 ## 🛠️ Technical Stack & Ecosystem
 
-<p align="left">
-  <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel%2011-FF2D20?style=flat-square&logo=laravel&logoColor=white" alt="Laravel 11" /></a>
-  <a href="https://filamentphp.com"><img src="https://img.shields.io/badge/Filament%20v3-EBB308?style=flat-square&logo=laravel&logoColor=black" alt="Filament v3" /></a>
-  <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" /></a>
-  <a href="https://javascript.info"><img src="https://img.shields.io/badge/Vanilla%20JS-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="Vanilla JS" /></a>
-  <a href="https://mysql.com"><img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white" alt="MySQL" /></a>
-  <a href="https://pestphp.com"><img src="https://img.shields.io/badge/Pest%20PHP-01C1D6?style=flat-square&logo=pest&logoColor=white" alt="Pest PHP" /></a>
-</p>
+Platform ini dibangun menggunakan ekosistem teknologi modern dengan performa tinggi:
 
 * **Core Framework**: [Laravel 11 / 12 / 13](https://laravel.com) (PHP >= 8.3)
 * **Back-Office Engine**: [Filament PHP v3](https://filamentphp.com) (TALL Stack-ready)
@@ -55,7 +63,7 @@
   * `guava/filament-icon-picker` (Komponen visual pemilih ikon kategori di admin panel)
   * `pestphp/pest` (Testing framework modern untuk backend PHP)
 
-<hr style="height: 1px; border: 0; background: #e1e4e8; margin: 30px 0;" />
+<br/><br/>
 
 ## 💻 Local Development Setup Guide (Panduan Instalasi)
 
@@ -123,7 +131,11 @@ Hubungkan direktori penyimpanan lokal agar file media yang diunggah dapat diakse
 php artisan storage:link
 ```
 
-*(Catatan: Jika Anda tidak ingin mengimpor database secara manual lewat phpMyAdmin dan ingin memulai dari database kosong baru, Anda dapat menjalankan perintah standard migration & seeder: `php artisan migrate --seed`).*
+> [!NOTE]
+> Jika Anda tidak ingin mengimpor database secara manual lewat phpMyAdmin dan ingin memulai dari database kosong baru, Anda dapat menjalankan perintah standard migration & seeder:
+> ```bash
+> php artisan migrate --seed
+> ```
 
 ### Step 8: Asset Bundling & Compiling
 Lakukan kompilasi aset frontend menggunakan bundler Vite:
@@ -143,17 +155,19 @@ npm run dev
 
 Platform katalog utama kini siap diakses pada web browser Anda melalui alamat: `http://127.0.0.1:8000`.
 
-<hr style="height: 1px; border: 0; background: #e1e4e8; margin: 30px 0;" />
+<br/><br/>
 
 ## 🔐 Admin Portal Credentials (Kredensial Login Admin)
 
 Untuk mengakses dashboard admin guna mengelola data produk, kategori, banner, atau memproses file impor massal, gunakan informasi login berikut:
 
-* **Portal URL**: `http://127.0.0.1:8000/admin`
-* **Username/Email**: `Tanya atmin`
-* **Password**: `Tanya atmin`
+> [!IMPORTANT]
+> **Kredensial Default Admin Panel**:
+> * **Portal URL**: `http://127.0.0.1:8000/admin`
+> * **Username/Email**: `Tanya atmin`
+> * **Password**: `Tanya atmin`
 
-<hr style="height: 1px; border: 0; background: #e1e4e8; margin: 30px 0;" />
+<br/><br/>
 
 ## 📸 Screenshots & User Interface Reference
 
