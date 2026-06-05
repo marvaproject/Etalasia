@@ -1,6 +1,6 @@
 # Etalasia — Premium Shopee & TikTok Affiliate Catalog Platform
 
-![Logo Etalasia](/public/images/Etalasia%20Logo%20Orange.svg)
+<img src="/public/images/Etalasia%20Logo%20Orange.svg" alt="Logo Etalasia" width="120" />
 
 **Etalasia** adalah platform katalog afiliasi (*affiliate catalog platform*) modern yang dikembangkan untuk mengkurasi produk-produk pilihan terbaik dari **Shopee** dan **TikTok**. Platform ini menghadirkan *seamless user experience* bagi pengunjung untuk mencari, menyaring, menyimpan ke *wishlist*, dan membagikan produk favorit mereka, sebelum diarahkan langsung ke tautan belanja afiliasi (*affiliate link*). 
 
@@ -144,16 +144,11 @@ Untuk mengakses dashboard admin guna mengelola data produk, kategori, banner, at
 
 ## 📸 Screenshots & User Interface Reference
 
-Sertakan tangkapan layar tampilan antarmuka aplikasi di bawah ini sebagai panduan visual:
+Sertakan tangkapan layar tampilan antarmuka aplikasi di bawah ini sebagai referensi visual:
 
-### 1. Catalog Frontend (Tampilan Pengunjung)
-* **Katalog Utama & Pencarian Produk**:
-  ![Katalog Utama]([TODO: Path screenshot katalog utama, contoh: docs/screenshots/catalog.png])
-* **Filter Kategori & Sticky Header Wishlist**:
-  ![Wishlist Header]([TODO: Path screenshot wishlist header, contoh: docs/screenshots/wishlist.png])
-
-### 2. Admin Dashboard & Product Importer
-* **Dashboard Stats Overview**:
-  ![Stats Overview]([TODO: Path screenshot dashboard stats, contoh: docs/screenshots/dashboard.png])
-* **Tabel Inventaris & Modal Impor CSV/JSON**:
-  ![Impor CSV JSON]([TODO: Path screenshot list produk & modal impor, contoh: docs/screenshots/impor.png])
+| Interface / Component | Description | Screenshot Preview (TODO to Replace) |
+| :--- | :--- | :--- |
+| **Catalog Frontend (Home)** | Halaman utama katalog publik, pencarian produk, slider banner, dan grid daftar produk. | ![Catalog Home]([TODO: Path screenshot katalog utama, contoh: docs/screenshots/catalog.png]) |
+| **Sticky Header & Wishlist** | Komponen wishlist sticky header, filter kategori aktif, dan status badge penyaring produk favorit. | ![Wishlist Header]([TODO: Path screenshot wishlist header, contoh: docs/screenshots/wishlist.png]) |
+| **Admin Stats Overview** | Tampilan panel statistik 5 kolom (Produk, Kategori, Banner, Shopee, TikTok) pada Dashboard Filament. | ![Stats Overview]([TODO: Path screenshot dashboard stats, contoh: docs/screenshots/dashboard.png]) |
+| **Product Inventory Table** | Tabel kelola produk, tombol edit baris samping nama, switcher aktif, dan modal bulk import CSV/JSON. | ![Product Importer]([TODO: Path screenshot list produk & modal impor, contoh: docs/screenshots/impor.png]) |
