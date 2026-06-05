@@ -306,14 +306,11 @@ body {
     transition: opacity 0.35s ease;
     display: block;
     width: 100%;
-    aspect-ratio: 5/2;
+    aspect-ratio: 10/3;
     object-fit: cover;
 }
 .img-banner.loaded {
     opacity: 1;
-}
-@media (min-width: 640px) {
-    .img-banner { aspect-ratio: 3/1; }
 }
 
 /* ─── Optimistic grid dim ──────────────────────────────────────────── */
@@ -427,12 +424,9 @@ body {
 .banner-slide img {
     display: block;
     width: 100%;
-    aspect-ratio: 5/2;
+    aspect-ratio: 10/3;
     object-fit: cover;
     background: #EEEEEE;
-}
-@media (min-width: 640px) {
-    .banner-slide img { aspect-ratio: 3/1; }
 }
 .banner-dots {
     display: flex;

@@ -15,7 +15,7 @@ class StatsOverviewWidget extends BaseWidget
     protected array|int|null $columns = [
         'sm' => 2,
         'md' => 3,
-        'lg' => 5,
+        'lg' => 3,
     ];
 
     protected function getStats(): array

@@ -38,7 +38,7 @@
 * **Auto-Play Hero Banner Carousel**: Slider promosi horizontal di halaman depan yang bergeser secara otomatis (*autoplay*), mendukung interaksi sentuh (*touch swipe/mouse drag gestures*), dan dilengkapi navigasi dot indikator yang responsif.
 
 ### 2. Back-Office Admin Panel & Dashboard (Filament)
-* **5-Column Responsive Analytics Widget**: Halaman *dashboard* ringkas yang memaparkan 5 kartu metrik utama (Produk Aktif, Kategori Aktif, Klik Banner, Klik Shopee, Klik TikTok) dalam tata letak responsif 5 kolom pada desktop untuk efisiensi ruang pandang.
+* **Responsive Grid Analytics Widget**: Halaman *dashboard* ringkas yang memaparkan 5 kartu metrik utama (Produk Aktif, Kategori Aktif, Klik Banner, Klik Shopee, Klik TikTok) dalam tata letak grid responsif 2 baris (3 kolom pada baris pertama dan 2 kolom pada baris kedua) pada desktop.
 * **Instant AJAX Toggle Switcher**: Kolom status aktif (`is_active`) pada tabel Produk, Kategori, dan Banner menggunakan komponen *Toggle Column*. Admin dapat mengaktifkan atau menonaktifkan data secara instan melalui AJAX langsung dari baris tabel tanpa harus memuat form edit.
 * **Mass CSV & JSON Product Importer**: Fungsionalitas impor massal data produk yang terintegrasi dengan template dokumen bawaan (CSV & JSON). Dilengkapi dengan:
   * Pembersih *BOM UTF-8* dan *automatic delimiter detector* (koma atau titik koma).

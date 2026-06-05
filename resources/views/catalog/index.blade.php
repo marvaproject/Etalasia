@@ -31,7 +31,7 @@
                             alt="{{ $banners->first()->title }}"
                             class="img-banner"
                             loading="eager"
-                            width="800" height="450"
+                            width="1000" height="300"
                             onload="imgLoaded(this)" onerror="imgError(this)"
                         >
                     </a>
@@ -54,7 +54,7 @@
                                             alt="{{ $banner->title }}"
                                             class="img-banner"
                                             loading="{{ $loop->first ? 'eager' : 'lazy' }}"
-                                            width="800" height="450"
+                                            width="1000" height="300"
                                             onload="imgLoaded(this)" onerror="imgError(this)"
                                         >
                                     </a>
@@ -588,7 +588,7 @@ function imgError(img) {
         // Stop retrying, load SVG placeholder
         img.onerror = null;
         if (img.classList.contains('img-banner')) {
-            img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'><rect width='100%' height='100%' fill='%23f3f4f6'/><text x='50%' y='50%' font-family='sans-serif' font-size='20' fill='%239ca3af' dominant-baseline='middle' text-anchor='middle'>Gambar tidak dapat dimuat</text></svg>";
+            img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='300' viewBox='0 0 1000 300'><rect width='100%' height='100%' fill='%23f3f4f6'/><text x='50%' y='50%' font-family='sans-serif' font-size='20' fill='%239ca3af' dominant-baseline='middle' text-anchor='middle'>Gambar tidak dapat dimuat</text></svg>";
         } else {
             img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='100%' height='100%' fill='%23f3f4f6'/><path d='M150 110 L190 170 L110 170 Z' fill='%239ca3af'/><circle cx='135' cy='135' r='8' fill='%23ffffff'/></svg>";
         }
