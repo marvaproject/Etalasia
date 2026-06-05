@@ -866,11 +866,17 @@ function updateFavoritesChipURL() {
             wishlistBtn.style.color = '#FF6200';
             wishlistBtn.style.borderColor = '#FF6200';
             wishlistBtn.style.backgroundColor = '#FFF3EC';
+            if (badge) {
+                badge.style.backgroundColor = '#FF6200';
+            }
         } else {
             wishlistBtn.classList.remove('active');
             wishlistBtn.style.color = '#737373';
             wishlistBtn.style.borderColor = '#E4E4E7';
             wishlistBtn.style.backgroundColor = 'transparent';
+            if (badge) {
+                badge.style.backgroundColor = '#737373';
+            }
         }
     }
 }

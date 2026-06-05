@@ -80,7 +80,7 @@
             >
                 <x-tabler-heart class="size-4" stroke-width="2.2" />
                 <span>Disimpan</span>
-                <span id="wishlist-badge" class="hidden items-center justify-center rounded-full bg-[#FF6200] px-1.5 py-0.5 text-[9px] font-bold text-white leading-none">0</span>
+                <span id="wishlist-badge" class="hidden items-center justify-center rounded-full bg-[#737373] px-1.5 py-0.5 text-[9px] font-bold text-white leading-none">0</span>
             </a>
         </div>
     </header>
