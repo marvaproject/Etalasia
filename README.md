@@ -3,6 +3,7 @@
 
   <h3>Etalasia — Premium Shopee & TikTok Affiliate Catalog Platform</h3>
 
+
   **Etalasia** adalah platform katalog afiliasi (*affiliate catalog platform*) modern yang dikembangkan untuk mengkurasi produk-produk pilihan terbaik dari **Shopee** dan **TikTok**. Platform ini menghadirkan *seamless user experience* bagi pengunjung untuk mencari, menyaring, menyimpan ke *wishlist*, dan membagikan produk favorit mereka, sebelum diarahkan langsung ke tautan belanja afiliasi (*affiliate link*).
 
   Pada bagian *back-office*, admin dibekali dengan *dashboard* berbasis Filament PHP yang tangguh untuk mengelola inventaris produk, mengklasifikasikan kategori, mengatur *campaign banner*, memantau metrik performa (*click-through analytics*), hingga melakukan impor data secara massal (*bulk import*).
@@ -53,7 +54,7 @@ Ikuti langkah-langkah di bawah ini untuk melakukan instalasi dan menjalankan pro
 ### Step 1: Clone the Repository
 Buka terminal atau command prompt Anda, jalankan perintah git berikut untuk menyalin kode sumber:
 ```bash
-git clone [TODO: Masukkan URL Git Repository Anda]
+git clone https://github.com/marvaproject/Etalasia.git
 cd etalasia
 ```
 
