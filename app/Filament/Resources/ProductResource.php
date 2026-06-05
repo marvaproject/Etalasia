@@ -22,10 +22,13 @@ use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductResource extends Resource
 {
@@ -98,10 +101,16 @@ class ProductResource extends Resource
                             ->label('Upload Gambar')
                             ->image()
                             ->directory('products')
-                            ->visibility('public'),
+                            ->visibility('public')
+                            ->live()
+                            ->disabled(fn ($get) => filled($get('image_url')))
+                            ->required(fn ($get) => empty($get('image_url'))),
                         TextInput::make('image_url')
                             ->label('URL Gambar')
                             ->url()
+                            ->live()
+                            ->disabled(fn ($get) => filled($get('image_path')))
+                            ->required(fn ($get) => empty($get('image_path')))
                             ->helperText('Alternatif upload. Cukup isi salah satu.')
                             ->maxLength(255),
                     ]),
@@ -139,15 +148,29 @@ class ProductResource extends Resource
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('product_code')
-                    ->label('#')
+                    ->label('No')
                     ->formatStateUsing(fn ($state) => $state ? '#' . str_pad($state, 3, '0', STR_PAD_LEFT) : '—')
                     ->sortable()
                     ->badge()
                     ->color('gray'),
-                TextColumn::make('name')->label('Nama')->searchable()->sortable(),
+                ImageColumn::make('image_src')
+                    ->label('Preview')
+                    ->square()
+                    ->size(40),
+                TextColumn::make('name')
+                    ->label('Nama')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(35),
+                TextColumn::make('edit_action')
+                    ->label('')
+                    ->icon('heroicon-m-pencil-square')
+                    ->url(fn (Product $record) => static::getUrl('edit', ['record' => $record]))
+                    ->color('primary')
+                    ->alignCenter(),
                 TextColumn::make('category.name')->label('Kategori')->sortable(),
                 TextColumn::make('display_price')->label('Harga')->searchable(),
-                IconColumn::make('is_active')->label('Aktif')->boolean(),
+                ToggleColumn::make('is_active')->label('Aktif'),
                 IconColumn::make('is_featured')->label('Unggulan')->boolean(),
                 TextColumn::make('shopee_clicks')->label('Klik Shopee')->numeric()->sortable(),
                 TextColumn::make('tiktok_clicks')->label('Klik TikTok')->numeric()->sortable(),
@@ -156,9 +179,19 @@ class ProductResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('category_id')->label('Kategori')->relationship('category', 'name'),
-            ])
-            ->recordActions([
-                EditAction::make(),
+                SelectFilter::make('marketplace')
+                    ->label('Marketplace')
+                    ->options([
+                        'shopee' => 'Shopee',
+                        'tiktok' => 'TikTok',
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if ($data['value'] === 'shopee') {
+                            $query->whereNotNull('shopee_url');
+                        } elseif ($data['value'] === 'tiktok') {
+                            $query->whereNotNull('tiktok_url');
+                        }
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

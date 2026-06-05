@@ -12,6 +12,12 @@ class StatsOverviewWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
 
+    protected array|int|null $columns = [
+        'sm' => 2,
+        'md' => 3,
+        'lg' => 5,
+    ];
+
     protected function getStats(): array
     {
         $totalShopeeClicks = Product::sum('shopee_clicks');
@@ -29,6 +35,11 @@ class StatsOverviewWidget extends BaseWidget
                 ->descriptionIcon('heroicon-m-tag')
                 ->color('info'),
 
+            Stat::make('Klik Banner', number_format($totalBannerClicks))
+                ->description(Banner::where('is_active', true)->count() . ' banner aktif')
+                ->descriptionIcon('heroicon-m-megaphone')
+                ->color('gray'),
+
             Stat::make('Klik Shopee', number_format($totalShopeeClicks))
                 ->description('Total semua produk')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
@@ -38,16 +49,6 @@ class StatsOverviewWidget extends BaseWidget
                 ->description('Total semua produk')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('danger'),
-
-            Stat::make('Klik Banner', number_format($totalBannerClicks))
-                ->description(Banner::where('is_active', true)->count() . ' banner aktif')
-                ->descriptionIcon('heroicon-m-megaphone')
-                ->color('gray'),
-
-            Stat::make('Total Klik Affiliate', number_format($totalShopeeClicks + $totalTiktokClicks))
-                ->description('Shopee + TikTok gabungan')
-                ->descriptionIcon('heroicon-m-cursor-arrow-ripple')
-                ->color('success'),
         ];
     }
 }

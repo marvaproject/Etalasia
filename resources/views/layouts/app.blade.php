@@ -8,6 +8,7 @@
     <title>@yield('title', 'Etalasia — Katalog Affiliate Shopee & TikTok')</title>
     <meta name="description" content="@yield('description', 'Etalasia mengkurasi produk affiliate Shopee dan TikTok pilihan dalam katalog yang ringan dan mudah dibuka di mobile.')">
     <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/Etalasia Logo Orange.svg') }}">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="website">
@@ -33,16 +34,13 @@
 </head>
 <body style="background:#F8F8F8; color:#0A0A0A;" class="antialiased">
 
-    {{-- NProgress Loading Bar --}}
-    <div id="nprogress" aria-hidden="true"><div class="bar"><div class="peg"></div></div></div>
-
-    {{-- Header --}}
+    {{-- Header --}}}
     <header id="site-header" class="sticky top-0 z-40 border-b bg-white transition-shadow duration-200" style="border-color:#E4E4E7;">
         <div class="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
 
             {{-- Logo --}}
             <a href="{{ route('catalog.home') }}" class="flex shrink-0 items-center gap-2" aria-label="Etalasia home">
-                <span class="grid size-8 place-items-center rounded-full text-sm font-extrabold text-white" style="background:#FF6200;">E</span>
+                <img src="{{ asset('images/Etalasia Logo.svg') }}" alt="Logo Etalasia" style="height: 32px; width: auto; max-height: 32px; object-fit: contain;">
                 <span class="hidden text-[17px] font-extrabold tracking-tight text-[#0A0A0A] sm:block" style="font-family:'Plus Jakarta Sans',sans-serif;">Etalasia</span>
             </a>
 
@@ -72,6 +70,18 @@
                     @endif
                 @endforeach
             </form>
+
+            {{-- Wishlist / Saved Button --}}
+            <a href="#"
+               id="wishlist-header-btn"
+               class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all duration-200 active:scale-95 text-xs font-semibold"
+               style="border-color: #E4E4E7; color: #737373; min-height: 38px; -webkit-tap-highlight-color:transparent;"
+               aria-label="Produk disimpan"
+            >
+                <x-tabler-heart class="size-4" stroke-width="2.2" />
+                <span>Disimpan</span>
+                <span id="wishlist-badge" class="hidden items-center justify-center rounded-full bg-[#FF6200] px-1.5 py-0.5 text-[9px] font-bold text-white leading-none">0</span>
+            </a>
         </div>
     </header>
 
@@ -79,6 +89,18 @@
     <main>
         @yield('content')
     </main>
+
+    {{-- Footer --}}
+    <footer class="border-t bg-white py-6 mt-12 text-center" style="border-color:#E4E4E7;">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6">
+            <p class="text-xs text-gray-400 leading-relaxed max-w-2xl mx-auto">
+                Disclaimer: Etalasia adalah katalog kurasi produk affiliate. Kami mendapatkan komisi kecil dari setiap pembelian melalui tautan belanja di situs ini tanpa biaya tambahan untuk Anda.
+            </p>
+            <p class="text-[10px] text-gray-300 mt-2">
+                &copy; {{ date('Y') }} Etalasia. All rights reserved.
+            </p>
+        </div>
+    </footer>
 
     {{-- Back to Top --}}
     <button
@@ -99,55 +121,6 @@
     @stack('scripts')
 
     <script>
-        /* ─── NProgress: Loading Bar ──────────────────────────────── */
-        const _np = {
-            el:  document.getElementById('nprogress'),
-            bar: document.querySelector('#nprogress .bar'),
-            _t1: null, _t2: null,
-            start() {
-                clearTimeout(this._t1); clearTimeout(this._t2);
-                this.bar.style.transition = 'none';
-                this.bar.style.transform  = 'scaleX(0)';
-                this.el.classList.add('active');
-                requestAnimationFrame(() => {
-                    this.bar.style.transition = 'transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94)';
-                    this.bar.style.transform  = 'scaleX(0.65)';
-                    this._t1 = setTimeout(() => {
-                        this.bar.style.transition = 'transform 2.5s ease';
-                        this.bar.style.transform  = 'scaleX(0.9)';
-                    }, 500);
-                });
-            },
-            done() {
-                clearTimeout(this._t1); clearTimeout(this._t2);
-                this.bar.style.transition = 'transform 0.15s ease';
-                this.bar.style.transform  = 'scaleX(1)';
-                this._t2 = setTimeout(() => {
-                    this.el.classList.remove('active');
-                    setTimeout(() => {
-                        this.bar.style.transition = 'none';
-                        this.bar.style.transform  = 'scaleX(0)';
-                    }, 220);
-                }, 160);
-            }
-        };
-
-        // Trigger on any navigation
-        document.addEventListener('click', e => {
-            const link = e.target.closest('a[href]');
-            if (!link) return;
-            const href = link.getAttribute('href');
-            if (!href || href.startsWith('#') || href.startsWith('javascript') ||
-                link.target === '_blank' || link.rel?.includes('noopener')) return;
-            _np.start();
-        });
-        document.addEventListener('submit', e => {
-            if (e.target.tagName === 'FORM' && (!e.target.target || e.target.target !== '_blank')) {
-                _np.start();
-            }
-        });
-        window.addEventListener('pageshow', () => _np.done());
-
         /* ─── Header shadow on scroll ─────────────────────────────── */
         const header    = document.getElementById('site-header');
         const backToTop = document.getElementById('back-to-top');

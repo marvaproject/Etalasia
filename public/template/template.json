@@ -1,0 +1,18 @@
+[
+  {
+    "nama_produk": "Kemeja Flanel Premium",
+    "harga": "Rp125.000",
+    "shopee_url": "https://shopee.co.id/product-123",
+    "tiktok_url": "",
+    "url_gambar": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c",
+    "kategori": "Pakaian"
+  },
+  {
+    "nama_produk": "Kaos Polos Cotton Combed",
+    "harga": "Rp49.000",
+    "shopee_url": "",
+    "tiktok_url": "https://www.tiktok.com/@product-456",
+    "url_gambar": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518",
+    "kategori": "Pakaian"
+  }
+]

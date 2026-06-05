@@ -23,6 +23,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Guava\IconPicker\Forms\Components\IconPicker;
 
+use Filament\Tables\Columns\ToggleColumn;
+
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
@@ -77,10 +79,15 @@ class CategoryResource extends Resource
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')->label('Nama')->searchable()->sortable(),
-                TextColumn::make('icon')->label('Ikon')->toggleable(),
+                TextColumn::make('icon')
+                    ->label('Ikon')
+                    ->formatStateUsing(fn (?string $state): ?\Illuminate\Support\HtmlString => $state ? new \Illuminate\Support\HtmlString(
+                        \Illuminate\Support\Facades\Blade::render('<div style="width: 32px !important; height: 32px !important; background-color: #f3f4f6 !important; border-radius: 6px !important; display: flex !important; align-items: center !important; justify-content: center !important; color: #374151 !important;"><div style="width: 20px !important; height: 20px !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important;"><x-dynamic-component :component="$icon" style="width: 20px !important; height: 20px !important; max-width: 20px !important; max-height: 20px !important; display: block !important;" /></div></div>', ['icon' => $state])
+                    ) : null)
+                    ->toggleable(),
                 TextColumn::make('products_count')->counts('products')->label('Produk')->sortable(),
                 TextColumn::make('sort_order')->label('Urutan')->sortable()->toggleable(isToggledHiddenByDefault: true),
-                IconColumn::make('is_active')->label('Aktif')->boolean(),
+                ToggleColumn::make('is_active')->label('Aktif'),
                 TextColumn::make('updated_at')->label('Update')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->recordActions([

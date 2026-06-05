@@ -40,6 +40,10 @@ class CatalogController extends Controller
             ->with('category')
             ->whereHas('category', fn (Builder $query) => $query->active())
             ->when($selectedCategory, fn (Builder $query) => $query->whereBelongsTo($selectedCategory))
+            ->when($request->has('favorites'), function (Builder $query) use ($request) {
+                $ids = array_filter(array_map('intval', explode(',', $request->string('favorites')->toString())));
+                $query->whereIn('id', $ids);
+            })
             ->when($request->filled('q'), function (Builder $query) use ($request) {
                 $q = $request->string('q')->toString();
                 // Cari berdasarkan nama ATAU nomor produk (contoh: "#42" atau "42")
@@ -60,7 +64,6 @@ class CatalogController extends Controller
                 match ($request->string('marketplace')->toString()) {
                     'shopee' => $query->whereNotNull('shopee_url'),
                     'tiktok' => $query->whereNotNull('tiktok_url'),
-                    'both' => $query->whereNotNull('shopee_url')->whereNotNull('tiktok_url'),
                     default => null,
                 };
             })

@@ -22,6 +22,8 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
+use Filament\Tables\Columns\ToggleColumn;
+
 class BannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
@@ -48,10 +50,16 @@ class BannerResource extends Resource
                             ->label('Upload gambar')
                             ->image()
                             ->directory('banners')
-                            ->visibility('public'),
+                            ->visibility('public')
+                            ->live()
+                            ->disabled(fn ($get) => filled($get('image_url')))
+                            ->required(fn ($get) => empty($get('image_url'))),
                         TextInput::make('image_url')
                             ->label('URL gambar')
                             ->url()
+                            ->live()
+                            ->disabled(fn ($get) => filled($get('image_path')))
+                            ->required(fn ($get) => empty($get('image_path')))
                             ->maxLength(255),
                         TextInput::make('sort_order')
                             ->label('Urutan')
@@ -78,7 +86,7 @@ class BannerResource extends Resource
                 TextColumn::make('target_url')->label('Link')->limit(40)->toggleable(),
                 TextColumn::make('clicks')->label('Klik')->numeric()->sortable(),
                 TextColumn::make('sort_order')->label('Urutan')->sortable(),
-                IconColumn::make('is_active')->label('Aktif')->boolean(),
+                ToggleColumn::make('is_active')->label('Aktif'),
                 TextColumn::make('updated_at')->label('Update')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->recordActions([

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Halaman Tidak Ditemukan — Etalasia</title>
     <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/Etalasia Logo Orange.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-screen flex-col bg-[#f7f4ee] text-[#20211d] antialiased">
@@ -12,7 +13,7 @@
     <header class="border-b border-[#ded6c7] bg-[#fffdf8]/95 backdrop-blur">
         <div class="mx-auto flex max-w-6xl items-center px-4 py-4 sm:px-6">
             <a href="{{ route('catalog.home') }}" class="flex items-center gap-3" aria-label="Etalasia home">
-                <span class="grid size-10 place-items-center rounded-full bg-[#1f8a70] text-lg font-black text-white">E</span>
+                <img src="{{ asset('images/Etalasia Logo.svg') }}" alt="Logo Etalasia" style="height: 40px; width: auto; max-height: 40px; object-fit: contain;">
                 <span>
                     <span class="block text-xl font-black tracking-wide text-[#20211d]">Etalasia</span>
                     <span class="block text-xs font-semibold uppercase tracking-[0.18em] text-[#7c6f5c]">Affiliate Catalog</span>
@@ -27,7 +28,9 @@
             <div class="relative mx-auto mb-8 w-fit">
                 <span class="select-none text-[10rem] font-black leading-none text-[#ded6c7] sm:text-[14rem]">404</span>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="grid size-20 place-items-center rounded-full bg-[#1f8a70] text-3xl font-black text-white shadow-lg">E</div>
+                    <div class="flex size-20 items-center justify-center rounded-full bg-white p-4 shadow-lg border border-[#ded6c7]">
+                        <img src="{{ asset('images/Etalasia Logo.svg') }}" alt="Logo Etalasia" class="size-full object-contain">
+                    </div>
                 </div>
             </div>
 

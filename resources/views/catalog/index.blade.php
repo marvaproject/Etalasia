@@ -32,7 +32,7 @@
                             class="img-banner"
                             loading="eager"
                             width="800" height="450"
-                            onload="imgLoaded(this)" onerror="imgLoaded(this)"
+                            onload="imgLoaded(this)" onerror="imgError(this)"
                         >
                     </a>
                 @else
@@ -55,7 +55,7 @@
                                             class="img-banner"
                                             loading="{{ $loop->first ? 'eager' : 'lazy' }}"
                                             width="800" height="450"
-                                            onload="imgLoaded(this)" onerror="imgLoaded(this)"
+                                            onload="imgLoaded(this)" onerror="imgError(this)"
                                         >
                                     </a>
                                 </div>
@@ -128,7 +128,6 @@
                         <span class="cat-icon-label">{{ $category->name }}</span>
                     </a>
                 @endforeach
-
         </div>
     </div>
 
@@ -149,7 +148,6 @@
             $marketplaceLabel = match(request('marketplace')) {
                 'shopee' => 'Shopee',
                 'tiktok' => 'TikTok',
-                'both'   => 'Keduanya',
                 default  => 'Semua',
             };
         @endphp
@@ -191,7 +189,6 @@
                         <div class="custom-select-option {{ !request('marketplace') ? 'selected' : '' }}" onclick="selectOption('mktSelect', '', 'Semua', 'marketplace')">Semua</div>
                         <div class="custom-select-option {{ request('marketplace') === 'shopee' ? 'selected' : '' }}" onclick="selectOption('mktSelect', 'shopee', 'Shopee', 'marketplace')">Shopee</div>
                         <div class="custom-select-option {{ request('marketplace') === 'tiktok' ? 'selected' : '' }}" onclick="selectOption('mktSelect', 'tiktok', 'TikTok', 'marketplace')">TikTok</div>
-                        <div class="custom-select-option {{ request('marketplace') === 'both' ? 'selected' : '' }}" onclick="selectOption('mktSelect', 'both', 'Keduanya', 'marketplace')">Keduanya</div>
                     </div>
                     <input type="hidden" name="marketplace" id="mktInput" value="{{ request('marketplace') }}">
                 </div>
@@ -295,7 +292,6 @@
                             <div class="custom-select-option {{ !request('marketplace') ? 'selected' : '' }}" onclick="selectOption('mktSelectDesktop', '', 'Semua', 'marketplace')">Semua</div>
                             <div class="custom-select-option {{ request('marketplace') === 'shopee' ? 'selected' : '' }}" onclick="selectOption('mktSelectDesktop', 'shopee', 'Shopee', 'marketplace')">Shopee</div>
                             <div class="custom-select-option {{ request('marketplace') === 'tiktok' ? 'selected' : '' }}" onclick="selectOption('mktSelectDesktop', 'tiktok', 'TikTok', 'marketplace')">TikTok</div>
-                            <div class="custom-select-option {{ request('marketplace') === 'both' ? 'selected' : '' }}" onclick="selectOption('mktSelectDesktop', 'both', 'Shopee + TikTok', 'marketplace')">Shopee + TikTok</div>
                         </div>
                         <input type="hidden" name="marketplace" id="mktInputDesktop" value="{{ request('marketplace') }}">
                     </div>
@@ -367,7 +363,7 @@
                             loading="lazy"
                             width="300" height="300"
                             onload="imgLoaded(this)"
-                            onerror="imgLoaded(this)"
+                            onerror="imgError(this)"
                         >
                         {{-- Badge kategori --}}
                         <span class="absolute right-2 top-2 max-w-[calc(100%-1rem)] truncate rounded-full px-2 py-0.5 text-[10px] font-semibold" style="background:rgba(255,255,255,0.92); color:#FF6200; backdrop-filter:blur(4px);">
@@ -379,6 +375,29 @@
                                 Unggulan
                             </span>
                         @endif
+
+                        {{-- Tombol Bagikan --}}
+                        <button
+                            type="button"
+                            onclick="shareProduct(event, '{{ addslashes($product->name) }}', '{{ route('catalog.home', ['q' => $product->formatted_code]) }}')"
+                            class="absolute z-10 flex size-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition-transform active:scale-90"
+                            style="right: 48px; bottom: 8px; backdrop-filter:blur(4px); color:#737373; border: 1px solid rgba(0,0,0,0.06); -webkit-tap-highlight-color:transparent;"
+                            aria-label="Bagikan produk"
+                        >
+                            <x-tabler-share class="size-4" stroke-width="2.5" />
+                        </button>
+
+                        {{-- Tombol Simpan (Heart) --}}
+                        <button
+                            type="button"
+                            onclick="toggleFavorite(event, {{ $product->id }})"
+                            class="absolute z-10 flex size-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition-transform active:scale-90"
+                            style="right: 8px; bottom: 8px; backdrop-filter:blur(4px); color:#737373; border: 1px solid rgba(0,0,0,0.06); -webkit-tap-highlight-color:transparent;"
+                            id="fav-btn-{{ $product->id }}"
+                            aria-label="Simpan ke favorit"
+                        >
+                            <x-tabler-heart class="size-4 fav-icon" stroke-width="2.5" />
+                        </button>
                     </div>
 
                     {{-- Info produk --}}
@@ -513,8 +532,15 @@ function selectOption(containerId, value, label, inputName) {
     dropdown.classList.remove('open');
     trigger.classList.remove('open');
 
-    // Auto-submit (mirrors the old onchange behaviour)
-    document.getElementById('filter-form').submit();
+    // Auto-submit via dispatching submit event to support AJAX loading
+    const form = document.getElementById('filter-form');
+    if (form) {
+        if (typeof form.requestSubmit === 'function') {
+            form.requestSubmit();
+        } else {
+            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        }
+    }
 }
 
 // Close dropdowns when clicking outside
@@ -535,44 +561,199 @@ function imgLoaded(img) {
     if (skeleton) skeleton.classList.add('loaded');
 }
 
-/* ─── Optimistic dim: grid fades when navigating ────────── */
+function imgError(img) {
+    let retries = parseInt(img.getAttribute('data-retries') || '0');
+    if (retries < 3) {
+        retries++;
+        img.setAttribute('data-retries', retries);
+        setTimeout(() => {
+            const originalSrc = img.src;
+            img.src = ''; // Clear to trigger reload
+            
+            // Add or update cache-buster query param as retry count
+            try {
+                const url = new URL(originalSrc);
+                url.searchParams.set('retry', retries);
+                img.src = url.toString();
+            } catch(e) {
+                // Fallback for relative paths
+                if (originalSrc.includes('?')) {
+                    img.src = originalSrc.split('?')[0] + '?retry=' + retries;
+                } else {
+                    img.src = originalSrc + '?retry=' + retries;
+                }
+            }
+        }, retries * 1500); // 1.5s, 3s, 4.5s backoff
+    } else {
+        // Stop retrying, load SVG placeholder
+        img.onerror = null;
+        if (img.classList.contains('img-banner')) {
+            img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'><rect width='100%' height='100%' fill='%23f3f4f6'/><text x='50%' y='50%' font-family='sans-serif' font-size='20' fill='%239ca3af' dominant-baseline='middle' text-anchor='middle'>Gambar tidak dapat dimuat</text></svg>";
+        } else {
+            img.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'><rect width='100%' height='100%' fill='%23f3f4f6'/><path d='M150 110 L190 170 L110 170 Z' fill='%239ca3af'/><circle cx='135' cy='135' r='8' fill='%23ffffff'/></svg>";
+        }
+        imgLoaded(img);
+    }
+}
+
+/* ─── SPA AJAX Loading to prevent page jump/scroll reset ─── */
+function loadPage(url) {
+    dimGrid();
+    
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error('Response error');
+            return response.text();
+        })
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Swap Category Chips active states
+            const newCatRow = doc.querySelector('.cat-icon-row');
+            const currentCatRow = document.querySelector('.cat-icon-row');
+            if (newCatRow && currentCatRow) {
+                currentCatRow.innerHTML = newCatRow.innerHTML;
+            }
+            
+            // Swap Products and filters section
+            const newProducts = doc.querySelector('#products');
+            const currentProducts = document.querySelector('#products');
+            if (newProducts && currentProducts) {
+                currentProducts.innerHTML = newProducts.innerHTML;
+            }
+            
+            // Update URL in browser history
+            history.pushState(null, '', url);
+            
+            // Re-trigger favorites and cached images checks
+            updateFavButtonsUI();
+            updateFavoritesChipURL();
+            document.querySelectorAll('.img-real, .img-banner').forEach(img => {
+                if (img.complete && img.naturalHeight > 0) {
+                    imgLoaded(img);
+                }
+            });
+        })
+        .catch(err => {
+            console.error('AJAX loading failed, doing full reload:', err);
+            window.location.href = url;
+        });
+}
+
 function dimGrid() {
     const grid = document.querySelector('#products > .grid');
     if (grid) grid.classList.add('grid-dimmed');
 }
 
-// Dim on filter form submit
-const filterForm = document.getElementById('filter-form');
-if (filterForm) filterForm.addEventListener('submit', dimGrid);
-
-// Dim on category tab click
-document.querySelectorAll('.cat-pill').forEach(pill => {
-    pill.addEventListener('click', dimGrid);
-});
-
-// Dim on pagination click
-document.querySelectorAll('[rel="next"], [rel="prev"], .pagination a').forEach(a => {
-    a.addEventListener('click', dimGrid);
-});
-
-/* ─── Filter Panel Toggle ───────────────────────────────── */
-const filterToggle = document.getElementById('filter-toggle');
-const filterPanel  = document.getElementById('filter-panel');
-if (filterToggle && filterPanel) {
-    filterToggle.addEventListener('click', () => {
-        const isHidden = filterPanel.classList.contains('hidden');
-        filterPanel.classList.toggle('hidden');
-        if (isHidden) {
-            filterPanel.style.opacity = '0';
-            filterPanel.style.transform = 'translateY(-6px)';
-            requestAnimationFrame(() => {
-                filterPanel.style.transition = 'opacity 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)';
-                filterPanel.style.opacity = '1';
-                filterPanel.style.transform = 'translateY(0)';
+// Listen to back/forward navigation
+window.addEventListener('popstate', () => {
+    dimGrid();
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            const newCatRow = doc.querySelector('.cat-icon-row');
+            const currentCatRow = document.querySelector('.cat-icon-row');
+            if (newCatRow && currentCatRow) {
+                currentCatRow.innerHTML = newCatRow.innerHTML;
+            }
+            
+            const newProducts = doc.querySelector('#products');
+            const currentProducts = document.querySelector('#products');
+            if (newProducts && currentProducts) {
+                currentProducts.innerHTML = newProducts.innerHTML;
+            }
+            
+            updateFavButtonsUI();
+            updateFavoritesChipURL();
+            document.querySelectorAll('.img-real, .img-banner').forEach(img => {
+                if (img.complete && img.naturalHeight > 0) {
+                    imgLoaded(img);
+                }
             });
+        })
+        .catch(() => window.location.reload());
+});
+
+// Event delegation for Form Submissions (Filters)
+document.addEventListener('submit', event => {
+    if (event.target.id === 'filter-form') {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const params = new URLSearchParams();
+        
+        for (const [key, value] of formData.entries()) {
+            if (value) params.append(key, value);
         }
-    });
-}
+        
+        // Preserve global search query 'q' if available in query params
+        const currentUrl = new URL(window.location.href);
+        if (currentUrl.searchParams.has('q') && !params.has('q')) {
+            params.append('q', currentUrl.searchParams.get('q'));
+        }
+        
+        const action = event.target.getAttribute('action') || window.location.pathname;
+        const url = action.split('?')[0] + '?' + params.toString();
+        loadPage(url);
+    }
+});
+
+// Event delegation for Clicks (Category Icon Chips, Pagination, Reset Button)
+document.addEventListener('click', event => {
+    // 0. Wishlist Header Button
+    const wishlistBtn = event.target.closest('#wishlist-header-btn');
+    if (wishlistBtn && wishlistBtn.getAttribute('href') !== '#') {
+        event.preventDefault();
+        loadPage(wishlistBtn.href);
+        return;
+    }
+
+    // 1. Category icons chips
+    const catChip = event.target.closest('.cat-icon-chip');
+    if (catChip && catChip.getAttribute('href') !== '#') {
+        event.preventDefault();
+        loadPage(catChip.href);
+        return;
+    }
+    
+    // 2. Pagination pages
+    const pagLink = event.target.closest('.pagination a, [rel="next"], [rel="prev"]');
+    if (pagLink && pagLink.href) {
+        event.preventDefault();
+        loadPage(pagLink.href);
+        return;
+    }
+    
+    // 3. Reset Button inside filter form
+    const resetBtn = event.target.closest('#products a');
+    if (resetBtn && resetBtn.href && !resetBtn.closest('.product-card') && !resetBtn.closest('.pagination')) {
+        event.preventDefault();
+        loadPage(resetBtn.href);
+        return;
+    }
+    
+    // 4. Filter Panel Toggle (delegated)
+    const filterToggle = event.target.closest('#filter-toggle');
+    if (filterToggle) {
+        const filterPanel = document.getElementById('filter-panel');
+        if (filterPanel) {
+            const isHidden = filterPanel.classList.contains('hidden');
+            filterPanel.classList.toggle('hidden');
+            if (isHidden) {
+                filterPanel.style.opacity = '0';
+                filterPanel.style.transform = 'translateY(-6px)';
+                requestAnimationFrame(() => {
+                    filterPanel.style.transition = 'opacity 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)';
+                    filterPanel.style.opacity = '1';
+                    filterPanel.style.transform = 'translateY(0)';
+                });
+            }
+        }
+    }
+});
 
 /* ─── Banner Slider ─────────────────────────────────────── */
 const sliderEl = document.getElementById('bannerSlider');
@@ -621,5 +802,159 @@ if (sliderEl) {
 
     startAuto();
 }
+
+/* ─── Wishlist (LocalStorage) & Web Share API ─────────────── */
+function updateFavButtonsUI() {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    document.querySelectorAll('[id^="fav-btn-"]').forEach(btn => {
+        const id = parseInt(btn.id.replace('fav-btn-', ''));
+        const svg = btn.querySelector('.fav-icon');
+        if (svg) {
+            if (favorites.includes(id)) {
+                svg.classList.add('active');
+                btn.style.color = '#FF6200';
+                btn.setAttribute('aria-label', 'Hapus dari disimpan');
+            } else {
+                svg.classList.remove('active');
+                btn.style.color = '#737373';
+                btn.setAttribute('aria-label', 'Simpan ke favorit');
+            }
+        }
+    });
+}
+
+function updateFavoritesChipURL() {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    
+    // Update Badge
+    const badge = document.getElementById('wishlist-badge');
+    if (badge) {
+        if (favorites.length > 0) {
+            badge.textContent = favorites.length;
+            badge.classList.remove('hidden');
+            badge.style.display = 'flex';
+        } else {
+            badge.classList.add('hidden');
+            badge.style.display = 'none';
+        }
+    }
+    
+    // Update Header Button URL and active states
+    const wishlistBtn = document.getElementById('wishlist-header-btn');
+    if (wishlistBtn) {
+        const url = new URL('{{ route("catalog.home") }}');
+        const isFavoritesActive = window.location.search.includes('favorites=');
+        
+        if (favorites.length > 0) {
+            url.searchParams.set('favorites', favorites.join(','));
+            
+            // Preserve search, marketplace, price, sort params
+            @foreach(['q', 'marketplace', 'min_price', 'max_price', 'sort'] as $param)
+                @if(request()->filled($param))
+                    url.searchParams.set('{{ $param }}', '{{ request($param) }}');
+                @endif
+            @endforeach
+
+            wishlistBtn.href = url.toString();
+        } else {
+            wishlistBtn.href = '{{ route("catalog.home") }}?favorites=';
+        }
+        
+        // Styling active state
+        if (isFavoritesActive) {
+            wishlistBtn.classList.add('active');
+            wishlistBtn.style.color = '#FF6200';
+            wishlistBtn.style.borderColor = '#FF6200';
+            wishlistBtn.style.backgroundColor = '#FFF3EC';
+        } else {
+            wishlistBtn.classList.remove('active');
+            wishlistBtn.style.color = '#737373';
+            wishlistBtn.style.borderColor = '#E4E4E7';
+            wishlistBtn.style.backgroundColor = 'transparent';
+        }
+    }
+}
+
+function toggleFavorite(event, productId) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const index = favorites.indexOf(productId);
+    
+    if (index > -1) {
+        favorites.splice(index, 1);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        
+        // Animasi fade-out jika berada di tab Disimpan
+        if (window.location.search.includes('favorites=')) {
+            const card = event.target.closest('.product-card');
+            if (card) {
+                card.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.93)';
+                setTimeout(() => {
+                    card.remove();
+                    if (document.querySelectorAll('.product-card').length === 0) {
+                        window.location.href = '{{ route("catalog.home") }}?favorites=';
+                    }
+                }, 250);
+            }
+        }
+    } else {
+        favorites.push(productId);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+    
+    updateFavButtonsUI();
+    updateFavoritesChipURL();
+}
+
+function shareProduct(event, name, url) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (navigator.share) {
+        navigator.share({
+            title: name,
+            text: `Lihat ${name} di Etalasia!`,
+            url: url
+        }).catch(err => console.log('Error sharing:', err));
+    } else {
+        navigator.clipboard.writeText(url).then(() => {
+            showToast("Tautan produk berhasil disalin!");
+        }).catch(err => console.error('Gagal menyalin:', err));
+    }
+}
+
+function showToast(message) {
+    // Check if toast already exists
+    let toast = document.getElementById('toast-notification');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast-notification';
+        toast.className = "fixed bottom-20 left-1/2 -translate-x-1/2 bg-black/85 text-white text-xs px-4 py-2.5 rounded-full z-50 transition-opacity duration-300 shadow-md font-semibold text-center";
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    
+    setTimeout(() => {
+        toast.style.opacity = '0';
+    }, 2000);
+}
+
+// Inisialisasi UI saat dimuat
+document.addEventListener('DOMContentLoaded', () => {
+    updateFavButtonsUI();
+    updateFavoritesChipURL();
+    
+    // Pengecekan gambar yang sudah selesai di-load (cached) agar skeleton tidak stuck
+    document.querySelectorAll('.img-real, .img-banner').forEach(img => {
+        if (img.complete && img.naturalHeight > 0) {
+            imgLoaded(img);
+        }
+    });
+});
 </script>
 @endpush

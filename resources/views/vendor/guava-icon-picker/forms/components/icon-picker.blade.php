@@ -13,6 +13,60 @@
     $placeholder = $getPlaceholder();
 @endphp
 
+<script>
+    (function() {
+        const interceptAlpine = (alpine) => {
+            if (alpine._iconPickerIntercepted) return;
+            alpine._iconPickerIntercepted = true;
+
+            const originalData = alpine.data;
+            if (!originalData) return;
+
+            alpine.data = function(name, callback) {
+                if (name === 'iconPickerComponent') {
+                    const originalCallback = callback;
+                    callback = function(...args) {
+                        const component = originalCallback.apply(this, args);
+                        
+                        Object.defineProperty(component, 'fuse', {
+                            get() {
+                                return {
+                                    search: (query) => {
+                                        if (!query) return [];
+                                        const keywords = query.toLowerCase().split(/\s+/).filter(Boolean);
+                                        const matches = this.icons.filter(icon => {
+                                            const id = (icon.id || '').toLowerCase();
+                                            const label = (icon.label || '').toLowerCase();
+                                            const name = (icon.name || '').toLowerCase();
+                                            return keywords.every(kw => id.includes(kw) || label.includes(kw) || name.includes(kw));
+                                        });
+                                        return matches.map(item => ({ item }));
+                                    }
+                                };
+                            },
+                            set(value) {},
+                            configurable: true,
+                            enumerable: true
+                        });
+                        
+                        component.createFuseObject = function() {};
+                        
+                        return component;
+                    };
+                }
+                return originalData.call(alpine, name, callback);
+            };
+        };
+
+        if (window.Alpine) {
+            interceptAlpine(window.Alpine);
+        }
+        document.addEventListener('alpine:init', () => {
+            interceptAlpine(window.Alpine);
+        });
+    })();
+</script>
+
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
@@ -43,33 +97,6 @@
         x-init="
             minimumItems = 36;
             resultsPerPage = 18;
-
-            // Use Object.defineProperty to intercept all reads/writes to 'fuse' and force custom substring search
-            Object.defineProperty($data, 'fuse', {
-                get() {
-                    return {
-                        search: (query) => {
-                            if (!query) return [];
-                            const keywords = query.toLowerCase().split(/\s+/).filter(Boolean);
-                            const matches = this.icons.filter(icon => {
-                                const id = (icon.id || '').toLowerCase();
-                                const label = (icon.label || '').toLowerCase();
-                                const name = (icon.name || '').toLowerCase();
-                                return keywords.every(kw => id.includes(kw) || label.includes(kw) || name.includes(kw));
-                            });
-                            return matches.map(item => ({ item }));
-                        }
-                    };
-                },
-                set(value) {
-                    // Do nothing to prevent overriding our custom getter
-                },
-                configurable: true,
-                enumerable: true
-            });
-
-            // Override createFuseObject to be a no-op to avoid the CPU/memory overhead of compiling original Fuse indexes
-            $data.createFuseObject = function() {};
             
             // Queue system to throttle icon SVG requests
             const iconQueue = [];

@@ -151,3 +151,46 @@ it('tracks product and banner clicks before redirecting', function () {
     expect($product->fresh()->tiktok_clicks)->toBe(1)
         ->and($banner->fresh()->clicks)->toBe(1);
 });
+
+it('filters products by favorites query parameter', function () {
+    $category = Category::create([
+        'name' => 'Fashion',
+        'slug' => 'fashion',
+        'is_active' => true,
+        'sort_order' => 1,
+    ]);
+
+    $p1 = Product::create([
+        'category_id' => $category->id,
+        'name' => 'Produk Favorit 1',
+        'slug' => 'p-fav-1',
+        'image_url' => 'https://example.com/p1.jpg',
+        'display_price' => 'Rp10.000',
+        'price' => 10000,
+        'is_active' => true,
+        'sort_order' => 1,
+    ]);
+
+    $p2 = Product::create([
+        'category_id' => $category->id,
+        'name' => 'Produk Favorit 2',
+        'slug' => 'p-fav-2',
+        'image_url' => 'https://example.com/p2.jpg',
+        'display_price' => 'Rp20.000',
+        'price' => 20000,
+        'is_active' => true,
+        'sort_order' => 2,
+    ]);
+
+    // Test with specific favorite IDs
+    $this->get('/?favorites=' . $p1->id)
+        ->assertOk()
+        ->assertSee('Produk Favorit 1')
+        ->assertDontSee('Produk Favorit 2');
+
+    // Test with empty favorites parameter (should show no products)
+    $this->get('/?favorites=')
+        ->assertOk()
+        ->assertDontSee('Produk Favorit 1')
+        ->assertDontSee('Produk Favorit 2');
+});
