@@ -12,11 +12,7 @@ class StatsOverviewWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
 
-    protected array|int|null $columns = [
-        'sm' => 2,
-        'md' => 3,
-        'lg' => 3,
-    ];
+    protected array|int|null $columns = null;
 
     protected function getStats(): array
     {

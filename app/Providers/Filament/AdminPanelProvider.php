@@ -37,6 +37,10 @@ class AdminPanelProvider extends PanelProvider
                 'dark' => Color::hex('#18181b'),
             ])
             ->darkMode(false)
+            ->renderHook(
+                'panels::head.end',
+                fn (): string => '<style>div:has(> .fi-wi-stats-overview-stat) { display: flex !important; flex-wrap: wrap !important; gap: 1.5rem !important; } div:has(> .fi-wi-stats-overview-stat) > * { flex: 1 1 280px !important; }</style>'
+            )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
