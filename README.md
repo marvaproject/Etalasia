@@ -175,11 +175,8 @@ Sertakan tangkapan layar tampilan antarmuka aplikasi di bawah ini sebagai refere
 
 | Interface / Component | Description | Screenshot Preview (TODO to Replace) |
 | :--- | :--- | :--- |
-| **Catalog Frontend (Home)** | Halaman utama katalog publik, pencarian produk, slider banner, dan grid daftar produk. | <img width="898" height="1822" alt="image" src="https://github.com/user-attachments/assets/5934832d-424c-45b7-aac8-6ef99de9cd83" />
- |
-| **Sticky Header & Wishlist** | Komponen wishlist sticky header, filter kategori aktif, dan status badge penyaring produk favorit. | <img width="898" height="1822" alt="image" src="https://github.com/user-attachments/assets/bc61b75d-ddc2-4015-af52-bb198a181ce7" />
- |
-| **Admin Stats Overview** | Tampilan panel statistik 5 kolom (Produk, Kategori, Banner, Shopee, TikTok) pada Dashboard Filament. | <img width="898" height="1822" alt="image" src="https://github.com/user-attachments/assets/f1fbbf09-2caa-49a7-abfd-d6c5e19ebadb" />
- |
-| **Product Inventory Table** | Tabel kelola produk, tombol edit baris samping nama, switcher aktif, dan modal bulk import CSV/JSON. | <img width="898" height="1822" alt="image" src="https://github.com/user-attachments/assets/3de1c9aa-9f6e-412a-8731-a858e3952c82" />
- |
+| **Catalog Frontend (Home)** | Halaman utama katalog publik, pencarian produk, slider banner, dan grid daftar produk. | <img width="200" alt="Catalog Frontend Home" src="https://github.com/user-attachments/assets/5934832d-424c-45b7-aac8-6ef99de9cd83" /> |
+| **Sticky Header & Wishlist** | Komponen wishlist sticky header, filter kategori aktif, dan status badge penyaring produk favorit. | <img width="200" alt="Sticky Header & Wishlist" src="https://github.com/user-attachments/assets/bc61b75d-ddc2-4015-af52-bb198a181ce7" /> |
+| **Admin Stats Overview** | Tampilan panel statistik 5 kolom (Produk, Kategori, Banner, Shopee, TikTok) pada Dashboard Filament. | <img width="200" alt="Admin Stats Overview" src="https://github.com/user-attachments/assets/f1fbbf09-2caa-49a7-abfd-d6c5e19ebadb" /> |
+| **Product Inventory Table** | Tabel kelola produk, tombol edit baris samping nama, switcher aktif, dan modal bulk import CSV/JSON. | <img width="200" alt="Product Inventory Table" src="https://github.com/user-attachments/assets/3de1c9aa-9f6e-412a-8731-a858e3952c82" /> |
+
