@@ -56,7 +56,7 @@ Platform ini dibangun menggunakan ekosistem teknologi modern dengan performa tin
 
 * **Core Framework**: [Laravel 11 / 12 / 13](https://laravel.com) (PHP >= 8.3)
 * **Back-Office Engine**: [Filament PHP v3](https://filamentphp.com) (TALL Stack-ready)
-* **Database Management System**: MySQL / MariaDB
+* **Database Management System**: MySQL
 * **Frontend Assets**: Tailwind CSS, Vanilla CSS (Custom UI Tokens), Vanilla JavaScript (Core SPA Engine)
 * **Primary Dependencies**:
   * `secondnetwork/blade-tabler-icons` (Koleksi ikon Tabler resmi terintegrasi Blade)
