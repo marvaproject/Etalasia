@@ -34,7 +34,7 @@
 </head>
 <body style="background:#F8F8F8; color:#0A0A0A;" class="antialiased">
 
-    {{-- Header --}}}
+    {{-- Header --}}
     <header id="site-header" class="sticky top-0 z-40 border-b bg-white transition-shadow duration-200" style="border-color:#E4E4E7;">
         <div class="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-6">
 

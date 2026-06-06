@@ -100,8 +100,12 @@ class ProductResource extends Resource
                         FileUpload::make('image_path')
                             ->label('Upload Gambar')
                             ->image()
+                            ->disk('public')
                             ->directory('products')
                             ->visibility('public')
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('600')
+                            ->imageResizeTargetHeight('600')
                             ->live()
                             ->disabled(fn ($get) => filled($get('image_url')))
                             ->required(fn ($get) => empty($get('image_url'))),

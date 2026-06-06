@@ -49,8 +49,12 @@ class BannerResource extends Resource
                         FileUpload::make('image_path')
                             ->label('Upload gambar')
                             ->image()
+                            ->disk('public')
                             ->directory('banners')
                             ->visibility('public')
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('1200')
+                            ->imageResizeTargetHeight('360')
                             ->live()
                             ->disabled(fn ($get) => filled($get('image_url')))
                             ->required(fn ($get) => empty($get('image_url'))),
