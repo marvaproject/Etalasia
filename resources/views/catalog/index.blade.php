@@ -839,19 +839,16 @@ function updateFavoritesChipURL() {
         }
     }
     
-    // Update Header Button URL and active states
     const wishlistBtn = document.getElementById('wishlist-header-btn');
     if (wishlistBtn) {
         const isFavoritesActive = window.location.search.includes('favorites=');
         const url = new URL(window.location.href);
         
         if (isFavoritesActive) {
-            // DEACTIVATE: Clicking it will remove favorites filter
             url.searchParams.delete('favorites');
             url.searchParams.delete('page');
             wishlistBtn.href = url.toString();
         } else {
-            // ACTIVATE: Clicking it will apply favorites filter
             if (favorites.length > 0) {
                 url.searchParams.set('favorites', favorites.join(','));
             } else {

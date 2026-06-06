@@ -160,7 +160,10 @@ class ProductResource extends Resource
                 ImageColumn::make('image_src')
                     ->label('Preview')
                     ->square()
-                    ->size(40),
+                    ->size(40)
+                    ->extraImgAttributes([
+                        'style' => 'border-radius: 6px !important;',
+                    ]),
                 TextColumn::make('name')
                     ->label('Nama')
                     ->searchable()

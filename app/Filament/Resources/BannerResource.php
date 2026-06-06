@@ -19,6 +19,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -86,6 +87,16 @@ class BannerResource extends Resource
         return $table
             ->recordTitleAttribute('title')
             ->columns([
+                ImageColumn::make('image_src')
+                    ->label('Preview')
+                    ->height(48)
+                    ->width(160)
+                    ->extraAttributes([
+                        'style' => 'width: 184px; padding: 8px 12px; display: flex; align-items: center; justify-content: center;',
+                    ])
+                    ->extraImgAttributes([
+                        'style' => 'aspect-ratio: 10/3 !important; object-fit: cover !important; width: 160px !important; height: 48px !important; border-radius: 6px;',
+                    ]),
                 TextColumn::make('title')->label('Judul')->searchable()->sortable(),
                 TextColumn::make('target_url')->label('Link')->limit(40)->toggleable(),
                 TextColumn::make('clicks')->label('Klik')->numeric()->sortable(),
