@@ -21,7 +21,7 @@
   <br/>
   
   <a href="https://github.com/marvaproject/Etalasia">
-    <img src="[TODO: Path screenshot katalog utama, contoh: docs/screenshots/catalog.png]" alt="Etalasia Catalog Home Preview" width="800">
+    <img src="https://github.com/user-attachments/assets/32ecaebb-a9bc-4141-b782-43eae756f218" alt="Etalasia Catalog Home Preview" width="800">
   </a>
 </div>
 
