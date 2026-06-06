@@ -172,6 +172,7 @@ class ProductResource extends Resource
                 TextColumn::make('edit_action')
                     ->label('')
                     ->icon('heroicon-m-pencil-square')
+                    ->state('')
                     ->url(fn (Product $record) => static::getUrl('edit', ['record' => $record]))
                     ->color('primary')
                     ->alignCenter(),
