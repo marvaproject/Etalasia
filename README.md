@@ -93,16 +93,13 @@ npm install
 4. Masukkan nama database: `etalasia`.
 5. Klik tombol **Create** (Buat).
 
-### Step 4: Database Import via phpMyAdmin (Schema & Seeders)
-Untuk memuat seluruh struktur tabel database beserta data contoh produk awal, impor file SQL yang disediakan:
+### Step 4: Database Import via phpMyAdmin
+Impor file SQL (`etalasia.sql`) yang sudah mencakup struktur tabel dan data contoh:
 1. Pastikan Anda sedang memilih database `etalasia` di panel kiri phpMyAdmin.
 2. Klik tab **Import** pada baris menu bagian atas.
 3. Pada bagian **File to import**, klik **Choose File** (Pilih File).
-4. Pilih file SQL skema database:
-   * **[TODO: Tentukan lokasi file schema SQL, contoh: database/sql/database.sql]**
+4. Pilih file **`etalasia.sql`** (terletak di root folder project).
 5. Gulir ke bagian paling bawah, lalu klik tombol **Import** (Kirim).
-6. Ulangi langkah di atas (1-5) untuk mengimpor file data contoh bawaan:
-   * **[TODO: Tentukan lokasi file data SQL sampel, contoh: database/sql/data.sql]**
 
 ### Step 5: Environment Variables Configuration (`.env`)
 1. Salin file template konfigurasi `.env.example` menjadi file `.env` aktif:
