@@ -101,12 +101,6 @@ Impor file SQL ([`etalasia.sql`](etalasia.sql)) yang sudah mencakup struktur tab
 4. Pilih file **[`etalasia.sql`](etalasia.sql)** (terletak di root folder project).
 5. Gulir ke bagian paling bawah, lalu klik tombol **Import** (Kirim).
 
-> [!NOTE]
-> Jika Anda tidak ingin mengimpor database secara manual lewat phpMyAdmin dan ingin memulai dari database kosong baru, Anda dapat menjalankan perintah standard migration & seeder:
-> ```bash
-> php artisan migrate --seed
-> ```
-
 ### Step 5: Environment Variables Configuration (`.env`)
 1. Salin file template konfigurasi `.env.example` menjadi file `.env` aktif:
    ```bash
