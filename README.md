@@ -94,11 +94,11 @@ npm install
 5. Klik tombol **Create** (Buat).
 
 ### Step 4: Database Import via phpMyAdmin
-Impor file SQL (`etalasia.sql`) yang sudah mencakup struktur tabel dan data contoh:
+Impor file SQL ([`etalasia.sql`](etalasia.sql)) yang sudah mencakup struktur tabel dan data contoh:
 1. Pastikan Anda sedang memilih database `etalasia` di panel kiri phpMyAdmin.
 2. Klik tab **Import** pada baris menu bagian atas.
 3. Pada bagian **File to import**, klik **Choose File** (Pilih File).
-4. Pilih file **`etalasia.sql`** (terletak di root folder project).
+4. Pilih file **[`etalasia.sql`](etalasia.sql)** (terletak di root folder project).
 5. Gulir ke bagian paling bawah, lalu klik tombol **Import** (Kirim).
 
 ### Step 5: Environment Variables Configuration (`.env`)
